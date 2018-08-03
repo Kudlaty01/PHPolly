@@ -1,0 +1,12 @@
+AddDefaultCharset utf-8
+
+# php_flag display_errors 1
+
+DirectorySlash off
+RewriteEngine on
+RewriteBase /
+
+RewriteRule .*pull\.php$ pull\.php [L]
+RewriteRule ^(?!robots\.txt|favicon\.ico|img/|images/|css/|js/|mcc/|media/|media\_t/|cors/|tests/|src(.*)/(.*)/js/|src(.*)/(.*)/css/|module/(.*)/public/|files/(.*))(.*)$ index.php [L]
+
+RewriteRule ^((robots\.txt|favicon\.ico|img/|images/|css/|js/).*)$ public/$1 [L]
