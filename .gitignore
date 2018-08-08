@@ -1,4 +1,3 @@
-db
 config/autoload/private.php
 yarn.lock
 public/js/components
