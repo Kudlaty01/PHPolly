@@ -195,5 +195,18 @@ class ModelRepository
 		return $this->dbEngine->rollBack();
 	}
 
+	/**
+	 * Copied from dbEngine
+	 * @param string $query
+	 * @param array  $parameters
+	 * @param string $class
+	 * @return mixed
+	 */
+	public function fetchRows(string $query, array $parameters = null, string $class = null)
+	{
+		return $this->dbEngine->fetchRows($query, $parameters, $class);
+	}
+
+
 
 }
