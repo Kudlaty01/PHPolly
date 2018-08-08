@@ -36,6 +36,7 @@ TODO
 * add more consistent validation to forms and dates especially
 * clean the mess db queries in the PollService
 * perform more security tests
+* invent good assets directory structure for bootstrap not to be under js directory
 
 
 [1]: https://yarnpkg.com
