@@ -43,6 +43,7 @@ class Application
 		$this->config              = $config;
 		$this->dependencyRegistrar = new DependencyRegistrar($this->servicesConfig());
 		$this->sessionManager      = $this->dependencyRegistrar->get(SessionManager::class);
+		$this->installationService = $this->dependencyRegistrar->get(InstallationService::class);
 
 		return $this;
 	}
@@ -69,6 +70,9 @@ class Application
 		$request = $this->dependencyRegistrar->get(\Tools\Http\Request::class);
 		$route   = $request->getCurrentRoute();
 		$action  = $route[\Enum\Config\Routes::ACTION];
+		if (!$this->installationService->installed() && $action != 'install') {
+			$request->redirect('/install');
+		}
 		$controllerAction = $action . 'Action';
 		$controllerClass  = $route[RouteCfg::CONTROLLER];
 		$controller       = $this->dependencyRegistrar->get($controllerClass);
