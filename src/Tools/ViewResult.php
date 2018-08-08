@@ -179,10 +179,8 @@ class ViewResult extends AbstractActionResult implements IActionResult
 			return '{{ ' . $key . ' }}';
 		}, array_keys($this->data));
 		$templateContent   = str_replace($replacementKeys, array_values($this->data), $templateContent);
-		$tagsToReplace     = array_map(function ($tag) {
-			return sprintf('{{ %s }}', $tag);
-		}, ['title', 'templateData', 'navigation', 'controllerScripts']);
-		$viewToRender = str_replace($tagsToReplace, [($this->title ?? ''), $templateContent, $navigationContent, $scriptsContent], $layoutContent);
+		$tagsToReplace     = $this->getTagsToReplace(['title', 'templateData', 'navigation', 'controllerScripts']);
+		$viewToRender      = str_replace($tagsToReplace, [($this->title ?? ''), $templateContent, $navigationContent, $scriptsContent], $layoutContent);
 
 		return $viewToRender;
 	}
@@ -230,6 +228,18 @@ class ViewResult extends AbstractActionResult implements IActionResult
 			return sprintf('<script type="text/javascript" src="%s"></script>', $script);
 		}, $additionalScripts);
 		return join(PHP_EOL, $scriptTags);
+	}
+
+	/**
+	 * @param array $tagNames
+	 * @return array
+	 */
+	protected function getTagsToReplace(array $tagNames):array
+	{
+		$tagsToReplace = array_map(function ($tag) {
+			return sprintf('{{ %s }}', $tag);
+		}, $tagNames);
+		return $tagsToReplace;
 	}
 
 }
