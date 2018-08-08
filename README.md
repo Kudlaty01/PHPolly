@@ -5,9 +5,11 @@ The fron- and backend app for poll creation and voting
 
 INSTALLATION
 ------------
-* run `yarn run setup`
+* install all required JS libraries with [Yarn][1]
+* in console, in main app directory run `yarn run setup`
 * rename `private.php.dist` to `private.php`, configure it with data you prefer
 * by default there are only 3 users
+* run the app with `php -S localhost:<port>` where `<port>` is the port of your choice (I set it to 8000)
 * go to `<domain>/install` and push the button
 * to hard reset the app, just remove file db/database.sqlite
 
@@ -35,3 +37,5 @@ TODO
 * clean the mess db queries in the PollService
 * perform more security tests
 
+
+[1]: https://yarnpkg.com
