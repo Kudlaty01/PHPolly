@@ -1,5 +1,4 @@
 <div>
-    <h1>Polls</h1>
     <span>{{ msg }}</span>
     <button data-bind="click: reload">Reload</button>
     <table>
