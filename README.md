@@ -5,7 +5,7 @@ The fron- and backend app for poll creation and voting
 
 INSTALLATION
 ------------
-* run yarn run setup
+* run `yarn run setup`
 * rename `private.php.dist` to `private.php`, configure it with data you prefer
 * by default there are only 3 users
 * go to `<domain>/install` and push the button
