@@ -21,6 +21,7 @@ class InstallationServiceFactory implements IServiceFactory
 	/**
 	 * @param DependencyRegistrar $dependencyRegistrar
 	 * @return mixed
+	 * @throws \Exception
 	 */
 	function createService(DependencyRegistrar $dependencyRegistrar)
 	{
