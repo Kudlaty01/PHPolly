@@ -1,8 +1,8 @@
 <div>
     <form method="post" action="/login">
-        <div><label for="login">Login: </label><input name="login" id="login" value="{{ login }}"/></div>
-        <div><label for="password">Password:</label><input type="password" name="password" id="password"
+        <div class="form-group row"><label class="col-md-2 col-form-label" for="login">Login: </label><input class="col-md-3 form-control" name="login" id="login" value="{{ login }}"/></div>
+        <div class="form-group row"><label class="col-md-2 col-form-label" for="password">Password:</label><input class="col-md-3 form-control" type="password" name="password" id="password"
                                                            value="{{ password }}"/></div>
-        <button type="submit">Submit</button>
+        <button class="btn btn-primary" type="submit">Submit</button>
     </form>
 </div>
