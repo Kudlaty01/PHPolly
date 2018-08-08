@@ -53,7 +53,8 @@ class IndexController extends AbstractController implements IController
 	{
 		$this->checkLogin();
 		$msg = "Welcome to the polling application!";
-		return new ViewResult(['msg' => $msg]);
+		return (new ViewResult(['msg' => $msg]))
+			->setTitle("Answer poll");
 	}
 
 	/**
@@ -72,7 +73,8 @@ class IndexController extends AbstractController implements IController
 			}
 		}
 
-		return new ViewResult(['msg' => 'Install all required db tables! Don\'t forget to run "yarn run setup" in the console before first usage!']);
+		return (new ViewResult(['msg' => 'Install all required db tables! Don\'t forget to run "yarn run setup" in the console before first usage!']))
+			->setTitle("Installation");
 	}
 
 	/**
@@ -89,7 +91,7 @@ class IndexController extends AbstractController implements IController
 			}
 		}
 		$model['password'] = '';
-		return new ViewResult($model);
+		return (new ViewResult($model))->setTitle("Sign in");
 	}
 
 	/**
