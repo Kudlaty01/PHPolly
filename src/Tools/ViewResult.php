@@ -150,7 +150,10 @@ class ViewResult extends AbstractActionResult implements IActionResult
 			return '{{ ' . $key . ' }}';
 		}, array_keys($this->data));
 		$templateContent   = str_replace($replacementKeys, array_values($this->data), $templateContent);
-		$viewToRender      = str_replace(['{{ templateData }}', '{{ navigation }}', '{{ controllerScripts }}'], [$templateContent, $navigationContent, $scriptsContent], $layoutContent);
+		$tagsToReplace     = array_map(function ($tag) {
+			return sprintf('{{ %s }}', $tag);
+		}, ['templateData', 'navigation', 'controllerScripts']);
+		$viewToRender      = str_replace($tagsToReplace, [$templateContent, $navigationContent, $scriptsContent], $layoutContent);
 
 		return $viewToRender;
 	}
