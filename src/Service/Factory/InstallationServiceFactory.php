@@ -27,6 +27,7 @@ class InstallationServiceFactory implements IServiceFactory
 		/** @var ModelRepository $modelRepository */
 		$config          = $dependencyRegistrar->get(DependencyRegisters::CONFIG)[ConfigSections::PRIVATE];
 		if (empty($config)) {
+			echo ErrorMessages::NO_PRIVATE_SETTINGS_FILE;
 			throw new \Exception(ErrorMessages::NO_PRIVATE_SETTINGS_FILE);
 		}
 		$modelRepository = $dependencyRegistrar->get(ModelRepository::class);
