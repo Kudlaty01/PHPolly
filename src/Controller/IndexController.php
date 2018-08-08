@@ -2,10 +2,14 @@
 
 namespace Controller;
 
+use Enum\ErrorMessages;
+use Model\AnswerModel;
+use Model\PollModel;
 use Service\InstallationService;
 use Service\PollsService;
 use Tools\AbstractController;
 use Tools\IController;
+use Tools\JsonResult;
 use Tools\ViewResult;
 
 class IndexController extends AbstractController implements IController
@@ -18,6 +22,17 @@ class IndexController extends AbstractController implements IController
 	 * @var PollsService
 	 */
 	private $pollsService;
+
+	/**
+	 * @inheritDoc
+	 */
+	function getScripts(): array
+	{
+		return [
+			'/public/js/frontend.js',
+		];
+	}
+
 
 	/**
 	 * IndexController constructor.
@@ -84,6 +99,57 @@ class IndexController extends AbstractController implements IController
 	{
 		$this->sessionManager->logout();
 		$this->getRequest()->redirect('/login');
+	}
+
+	public function getPollAction()
+	{
+		$message  = '';
+		$pollData = null;
+		if ($this->getRequest()->isPost()) {
+			$poll = $this->pollsService->getPollForUser($this->sessionManager->getUserId());
+			if ($poll) {
+				$pollData            = $poll->toArray();
+				$pollData['answers'] = array_map(function (AnswerModel $answer) {
+					return $answer->toArray();
+				}, $poll->getAnswers());
+			} else {
+				$message = ErrorMessages::NO_MORE_POLLS;
+			}
+		}
+		$message = ErrorMessages::WRONG_REQUEST_TYPE;
+		return new JsonResult(['poll' => $pollData, 'message' => $message]);
+	}
+
+	/**
+	 * Vote in poll
+	 * TODO: Check if answer is for poll
+	 * @return JsonResult
+	 */
+	public function voteAction()
+	{
+		$message = '';
+		$totals  = null;
+		if ($this->getRequest()->isPost()) {
+			$pollId    = $this->getRequest()->getPost('poll_id');
+			$answerId  = $this->getRequest()->getPost('answer_id');
+			$pollModel = $this->modelRepository->find(new PollModel(), $pollId);
+			$userId    = $this->sessionManager->getUserId();
+
+			if ($this->pollsService->isPollExpired($pollModel)) {
+				$message = ErrorMessages::POLL_EXPIRED;
+			} else if ($this->pollsService->userAlreadyVoted($pollId, $userId)) {
+				$message = ErrorMessages::USER_ALREADY_VOTED;
+			} else {
+				if ($this->pollsService->voteInPoll($answerId, $userId)) {
+					$totals = $this->pollsService->getTotalVotes($pollId);
+				} else {
+					$message = ErrorMessages::DATABASE_ERROR;
+				}
+			}
+		} else {
+			$message = ErrorMessages::WRONG_REQUEST_TYPE;
+		}
+		return new JsonResult(['totals' => $totals, 'error' => $message]);
 	}
 
 }
