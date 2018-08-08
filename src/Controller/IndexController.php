@@ -104,6 +104,7 @@ class IndexController extends AbstractController implements IController
 	public function getPollAction(): JsonResult
 	{
 		$pollData = null;
+		$message  = '';
 		if ($this->getRequest()->isPost()) {
 			$poll = $this->pollsService->getPollForUser($this->sessionManager->getUserId());
 			if ($poll) {
@@ -114,8 +115,9 @@ class IndexController extends AbstractController implements IController
 			} else {
 				$message = ErrorMessages::NO_MORE_POLLS;
 			}
+		} else {
+			$message = ErrorMessages::WRONG_REQUEST_TYPE;
 		}
-		$message = ErrorMessages::WRONG_REQUEST_TYPE;
 		return new JsonResult(['poll' => $pollData, 'message' => $message]);
 	}
 
