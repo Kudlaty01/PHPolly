@@ -4,6 +4,7 @@ use Controller\Factory\PollsControllerFactory;
 use Enum\Config\Routes as RouteCfg;
 use Enum\DependencyRegisters;
 use Enum\DependencyType;
+use Service\InstallationService;
 use Tools\DependencyRegistrar;
 use Tools\Routing;
 use Tools\SessionManager;
@@ -16,10 +17,6 @@ class Application
 {
 
 	/**
-	 * @var Routing
-	 */
-	private $routing;
-	/**
 	 * @var array
 	 */
 	private $config;
@@ -31,6 +28,10 @@ class Application
 	 * @var SessionManager
 	 */
 	private $sessionManager;
+	/**
+	 * @var InstallationService
+	 */
+	private $installationService;
 
 	/**
 	 * @param array $config
@@ -41,7 +42,6 @@ class Application
 		session_start();
 		$this->config              = $config;
 		$this->dependencyRegistrar = new DependencyRegistrar($this->servicesConfig());
-		$this->routing             = $this->dependencyRegistrar->get(Routing::class);
 		$this->sessionManager      = $this->dependencyRegistrar->get(SessionManager::class);
 
 		return $this;
@@ -65,16 +65,19 @@ class Application
 	 */
 	private function handleRouting()
 	{
-		$route           = $this->routing->handleUrl();
-		$action          = $route[\Enum\Config\Routes::ACTION] . 'Action';
-		$controllerClass = $route[RouteCfg::CONTROLLER];
-		$controller      = $this->dependencyRegistrar->get($controllerClass);
+		/** @var \Tools\Http\Request $request */
+		$request = $this->dependencyRegistrar->get(\Tools\Http\Request::class);
+		$route   = $request->getCurrentRoute();
+		$action  = $route[\Enum\Config\Routes::ACTION];
+		$controllerAction = $action . 'Action';
+		$controllerClass  = $route[RouteCfg::CONTROLLER];
+		$controller       = $this->dependencyRegistrar->get($controllerClass);
 
 		if (preg_match('/Controller$/', $controller)) {
 			throw new \ErrorException('Wrong controller naming convention');
 		}
 		/** @var \Tools\IActionResult $actionResult */
-		$actionResult = $controller->$action();
+		$actionResult = $controller->$controllerAction();
 //		echo 'Controller class: '.$controllerClass.PHP_EOL;
 		$resultTypes = [
 			'view' => $actionResult instanceof \Tools\ViewResult,
@@ -87,7 +90,7 @@ class Application
 				if (!$actionResult->getTemplate()) {
 					$actionResult->setTemplate(join(DIRECTORY_SEPARATOR, [
 						strtolower(preg_replace('/Controller$/', '', array_reverse(explode('\\', $controllerClass))[0])),
-						preg_replace('/Action$/', '', $action),
+						preg_replace('/Action$/', '', $controllerAction),
 					]));
 				}
 				$actionResult->setNavigation(array_merge($route[RouteCfg::NAVIGATION], $this->sessionManager->getUserId()
@@ -140,7 +143,7 @@ class Application
 				\Controller\PollsController::class  => PollsControllerFactory::class,
 				SessionManager::class               => \Tools\Factory\SessionManagerFactory::class,
 				\Tools\AuthenticationService::class => \Tools\Factory\AuthenticationServiceFactory::class,
-				\Service\InstallationService::class => \Service\Factory\InstallationServiceFactory::class,
+				InstallationService::class          => \Service\Factory\InstallationServiceFactory::class,
 				\Service\PollsService::class        => \Service\Factory\PollsServiceFactory::class,
 			],
 		];

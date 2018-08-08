@@ -17,9 +17,9 @@ class Request
 	 */
 	private $routing;
 	/**
-	 * @var array
+	 * @var array|bool
 	 */
-	private $params;
+	private $currentRoute;
 
 	/**
 	 * Request constructor.
@@ -27,9 +27,8 @@ class Request
 	 */
 	public function __construct(Routing $routing)
 	{
-		$this->routing = $routing;
-		$currentRoute  = $routing->handleUrl();
-		$this->params  = $currentRoute[Routes::PARAMETERS];
+		$this->routing      = $routing;
+		$this->currentRoute = $routing->handleUrl();
 	}
 
 
@@ -65,7 +64,7 @@ class Request
 	 */
 	public function getParams(): array
 	{
-		return $this->params;
+		return $this->currentRoute[Routes::PARAMETERS];
 	}
 
 	/**
@@ -74,8 +73,15 @@ class Request
 	 */
 	public function getParam(string $param): string
 	{
-		return $this->params[$param];
+		return $this->currentRoute[Routes::PARAMETERS][$param];
 	}
 
+	/**
+	 * @return array|bool
+	 */
+	public function getCurrentRoute()
+	{
+		return $this->currentRoute;
+	}
 
 }
