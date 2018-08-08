@@ -1,1 +1,1 @@
-<li><a href="{{ link }}">{{ itemCaption }}</a></li>
+<li class="nav-item"><a class="nav-link" href="{{ link }}">{{ itemCaption }}</a></li>
