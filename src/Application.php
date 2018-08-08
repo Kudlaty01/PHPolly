@@ -76,6 +76,7 @@ class Application
 		$controllerAction = $action . 'Action';
 		$controllerClass  = $route[RouteCfg::CONTROLLER];
 		$controller       = $this->dependencyRegistrar->get($controllerClass);
+		$controller->setRequest($request);
 
 		if (preg_match('/Controller$/', $controller)) {
 			throw new \ErrorException('Wrong controller naming convention');

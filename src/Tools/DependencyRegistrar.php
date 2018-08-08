@@ -75,7 +75,7 @@ class DependencyRegistrar implements IDependencyRegistrar
 			$result->setDbAdapter($this->get(IDbAdapter::class));
 		}
 		if ($result instanceof IController) {
-			$result->setRequest($this->get(Request::class));
+			// Some dependencies required by controller, maybe to add sometime later
 		}
 		return $result;
 	}
