@@ -11,10 +11,12 @@
     {{ controllerScripts }}
 </head>
 <body>
+<div class="container">
 <h1>{{ title }}</h1>
 <nav>
     <ul id="menu">{{ navigation }}</ul>
 </nav>
 {{ templateData }}
+</div>
 </body>
 </html>
