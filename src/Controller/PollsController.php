@@ -33,7 +33,7 @@ class PollsController extends AbstractController implements IController
 	 * Main view for the grid to appear
 	 * @return ViewResult
 	 */
-	public function indexAction()
+	public function indexAction(): ViewResult
 	{
 		$this->checkLogin(true);
 		$data = ['msg' => 'polls coming..'];
@@ -44,7 +44,7 @@ class PollsController extends AbstractController implements IController
 	 * dynamically presented list of polls
 	 * @return JsonResult
 	 */
-	public function listAction()
+	public function listAction(): JsonResult
 	{
 		$pollList  = $this->modelRepository->list(new PollModel());
 		$plainList = array_map(function (PollModel $pollItem) {
@@ -61,7 +61,7 @@ class PollsController extends AbstractController implements IController
 	 * new poll is created here. View and JS code namespace are shared with edit action
 	 * @return ViewResult
 	 */
-	public function addAction()
+	public function addAction(): ViewResult
 	{
 		$data = ['question' => '', 'expirationDate' => (new \DateTime())->add(\DateInterval::createFromDateString('+1 week'))->format(Model::DATE_TIME_FORMAT)];
 		if ($this->getRequest()->isPost()) {
@@ -92,9 +92,9 @@ class PollsController extends AbstractController implements IController
 
 	/**
 	 * Edition action for polls
-	 * @return IActionResult
+	 * @return ViewResult
 	 */
-	public function editAction(): IActionResult
+	public function editAction(): ViewResult
 	{
 		$id                  = $this->getRequest()->getParam('id');
 		$poll                = $this->modelRepository->find(new PollModel(), $id, ['answers']);
@@ -142,7 +142,7 @@ class PollsController extends AbstractController implements IController
 	 * TODO: apply also ajax request type verification
 	 * @return JsonResult
 	 */
-	public function removeAction()
+	public function removeAction(): JsonResult
 	{
 		if ($this->getRequest()->isPost()) {
 			/**
