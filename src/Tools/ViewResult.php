@@ -208,11 +208,14 @@ class ViewResult extends AbstractActionResult implements IActionResult
 	 * @param array $navigation
 	 * @return string
 	 */
-	private function getNavigationContent($navigation)
+	private function getNavigationContent($navigation): string
 	{
-		$result = '';
+		$result            = '';
+		$navigatonTemplate = $this->getTemplateContents($this->navigationItemTemplate);
+		$tagsToReplace     = $this->getTagsToReplace(['link', 'itemCaption']);
+
 		foreach ($navigation as $caption => $navItem) {
-			$result .= sprintf('<li><a href="%s">%s</a></li>', $navItem, $caption);
+			$result .= str_replace($tagsToReplace, [$navItem, $caption], $navigatonTemplate);
 		}
 		return $result;
 	}
