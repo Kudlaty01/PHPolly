@@ -10,6 +10,10 @@ namespace Tools;
 class ViewResult extends AbstractActionResult implements IActionResult
 {
 	/**
+	 * @var string
+	 */
+	private $title;
+	/**
 	 * @var array
 	 */
 	protected $data;
@@ -41,6 +45,24 @@ class ViewResult extends AbstractActionResult implements IActionResult
 		$this->data = $data;
 		$this->setTemplate($template);
 		$this->setLayout($layout ?? 'layout');
+	}
+
+	/**
+	 * @return string
+	 */
+	public function getTitle(): string
+	{
+		return $this->title;
+	}
+
+	/**
+	 * @param mixed $title
+	 * @return ViewResult
+	 */
+	public function setTitle($title): ViewResult
+	{
+		$this->title = $title;
+		return $this;
 	}
 
 	/**
