@@ -118,7 +118,7 @@ class IndexController extends AbstractController implements IController
 		} else {
 			$message = ErrorMessages::WRONG_REQUEST_TYPE;
 		}
-		return new JsonResult(['poll' => $pollData, 'message' => $message]);
+		return new JsonResult(['poll' => $pollData, 'error' => $message]);
 	}
 
 	/**
