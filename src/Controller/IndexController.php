@@ -72,7 +72,7 @@ class IndexController extends AbstractController implements IController
 			}
 		}
 
-		return new ViewResult(['msg' => 'Install all required db tables!']);
+		return new ViewResult(['msg' => 'Install all required db tables! Don\'t forget to run "yarn run setup" in the console before first usage!']);
 	}
 
 	/**
