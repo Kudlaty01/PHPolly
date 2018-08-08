@@ -50,7 +50,7 @@ LEFT OUTER JOIN (
                   WHERE ua_user_id = ?
                 ) voted_polls
   ON poll_id=vote_poll_id
-  WHERE vote_poll_id IS NULL AND p.expirationDate > ?
+  WHERE vote_poll_id IS NULL AND (coalesce(p.expirationDate,'') = '' OR p.expirationDate > ?)
 ORDER BY RANDOM() LIMIT 1", [$userId, (new \DateTime())->format(Model::DATE_TIME_FORMAT)], PollModel::class);
 		if ($pollResult) {
 			$poll    = $pollResult[0];
