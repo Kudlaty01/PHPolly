@@ -4,6 +4,7 @@ namespace Service\Factory;
 
 use Enum\Config\ConfigSections;
 use Enum\DependencyRegisters;
+use Enum\ErrorMessages;
 use Service\InstallationService;
 use Tools\Db\ModelRepository;
 use Tools\DependencyRegistrar;
@@ -25,6 +26,9 @@ class InstallationServiceFactory implements IServiceFactory
 	{
 		/** @var ModelRepository $modelRepository */
 		$config          = $dependencyRegistrar->get(DependencyRegisters::CONFIG)[ConfigSections::PRIVATE];
+		if (empty($config)) {
+			throw new \Exception(ErrorMessages::NO_PRIVATE_SETTINGS_FILE);
+		}
 		$modelRepository = $dependencyRegistrar->get(ModelRepository::class);
 		return new InstallationService($config, $modelRepository);
 	}
