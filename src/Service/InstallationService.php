@@ -2,6 +2,7 @@
 
 namespace Service;
 
+use Enum\ErrorMessages;
 use Model\AnswerModel;
 use Model\PollModel;
 use Model\UserAnswerModel;
@@ -82,5 +83,14 @@ class InstallationService
 
 		return true;
 
+	}
+
+	public function checkJsComponentsInstallation()
+	{
+		$root = $_SERVER['DOCUMENT_ROOT'];
+		if (!is_dir(join(DIRECTORY_SEPARATOR, [$root, 'public', 'js', 'components']))) {
+			echo ErrorMessages::NO_JS_COMPONENTS;
+			throw new \Exception(ErrorMessages::NO_JS_COMPONENTS);
+		}
 	}
 }

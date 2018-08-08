@@ -15,4 +15,5 @@ class ErrorMessages
 	const USER_ALREADY_VOTED = 'User has already voted in this poll!!';
 	const DATABASE_ERROR = "Error placing vote in the poll!";
 	const NO_PRIVATE_SETTINGS_FILE = 'Please rename config/autoload/private.php.dist to config/autoload/private.php and set the default passwords!';
+	const NO_JS_COMPONENTS = "Please run 'yarn run setup' from the console in the main project directory";
 }
