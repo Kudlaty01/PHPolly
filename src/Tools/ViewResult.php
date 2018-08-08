@@ -30,6 +30,10 @@ class ViewResult extends AbstractActionResult implements IActionResult
 	 */
 	private $navigation;
 	/**
+	 * @var string|null
+	 */
+	private $navigationItemTemplate;
+	/**
 	 * @var string[]
 	 */
 	private $additionalScripts;
@@ -46,6 +50,7 @@ class ViewResult extends AbstractActionResult implements IActionResult
 		$this->title = $title;
 		$this->setTemplate($template);
 		$this->setLayout('layout'); //set default layout
+		$this->setNavigationItemTemplate('menu-item'); //set default layout
 	}
 
 	/**
@@ -137,6 +142,29 @@ class ViewResult extends AbstractActionResult implements IActionResult
 		$this->navigation = array_merge($this->navigation, $navigation);
 		return $this;
 	}
+
+	/**
+	 * @return null|string
+	 */
+	public function getNavigationItemTemplate()
+	{
+		return $this->navigationItemTemplate;
+	}
+
+	/**
+	 * @param null|string $navigationItemTemplate
+	 * @return ViewResult
+	 * @throws \ErrorException
+	 */
+	public function setNavigationItemTemplate($navigationItemTemplate)
+	{
+		if ($navigationItemTemplate && !file_exists($this->getPathRelativeToProject($navigationItemTemplate))) {
+			throw new \ErrorException("There is not navigation item layout template $navigationItemTemplate");
+		}
+		$this->navigationItemTemplate = $navigationItemTemplate;
+		return $this;
+	}
+
 
 	/**
 	 * @inheritdoc
