@@ -32,4 +32,5 @@ TODO
 * stop giving model class to repository every time
 * prevent redundant model declaration within poll management scripts
 * add more consistent validation to forms and dates especially
+* clean the mess db queries in the PollService
 
