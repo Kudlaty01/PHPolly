@@ -12,4 +12,5 @@ class ConfigSections
 	const ROUTES = 'routes';
 	const DB = 'db';
 	const NAVIGATION = 'navigation';
+	const PRIVATE = 'private';
 }

@@ -25,6 +25,10 @@ class ViewResult extends AbstractActionResult implements IActionResult
 	 * @var string|null
 	 */
 	private $navigation;
+	/**
+	 * @var string[]
+	 */
+	private $additionalScripts;
 
 	/**
 	 * View constructor.
@@ -42,7 +46,7 @@ class ViewResult extends AbstractActionResult implements IActionResult
 	/**
 	 * @return null|string
 	 */
-	public function getTemplate(): string
+	public function getTemplate()//: ?string - would be in PHP 7.1
 	{
 		return $this->template;
 	}
@@ -55,7 +59,7 @@ class ViewResult extends AbstractActionResult implements IActionResult
 	public function setTemplate($template): ViewResult
 	{
 		if ($template && !file_exists($this->getPathRelativeToProject($template))) {
-			throw new \ErrorException("There is not view template $template");
+			throw new \ErrorException("There is no view template $template");
 		}
 		$this->template = $template;
 		return $this;
@@ -102,18 +106,29 @@ class ViewResult extends AbstractActionResult implements IActionResult
 	}
 
 	/**
+	 * @param null|string $navigation
+	 * @return ViewResult
+	 */
+	public function addNavigation($navigation)
+	{
+		$this->navigation = array_merge($this->navigation, $navigation);
+		return $this;
+	}
+
+	/**
 	 * @inheritdoc
 	 */
-	public function render()
+	public function render(): string
 	{
 		$templateContent   = $this->getTemplateContents($this->template);
 		$layoutContent     = $this->getTemplateContents($this->layout);
 		$navigationContent = $this->getNavigationContent($this->navigation);
+		$scriptsContent    = $this->getScriptsContent($this->additionalScripts);
 		$replacementKeys   = array_map(function ($key) {
 			return '{{ ' . $key . ' }}';
 		}, array_keys($this->data));
 		$templateContent   = str_replace($replacementKeys, array_values($this->data), $templateContent);
-		$viewToRender      = str_replace(['{{ templateData }}', '{{ navigation }}'], [$templateContent, $navigationContent], $layoutContent);
+		$viewToRender      = str_replace(['{{ templateData }}', '{{ navigation }}', '{{ controllerScripts }}'], [$templateContent, $navigationContent, $scriptsContent], $layoutContent);
 
 		return $viewToRender;
 	}
@@ -145,9 +160,22 @@ class ViewResult extends AbstractActionResult implements IActionResult
 	{
 		$result = '';
 		foreach ($navigation as $caption => $navItem) {
-			$result .= sprintf('<a href="%s">%s</a>', $navItem, $caption);
+			$result .= sprintf('<li><a href="%s">%s</a></li>', $navItem, $caption);
 		}
 		return $result;
+	}
+
+	public function setControllerScripts($additionalScripts)
+	{
+		$this->additionalScripts = $additionalScripts;
+	}
+
+	public function getScriptsContent($additionalScripts)
+	{
+		$scriptTags = array_map(function ($script) {
+			return sprintf('<script type="text/javascript" src="%s"></script>', $script);
+		}, $additionalScripts);
+		return join(PHP_EOL, $scriptTags);
 	}
 
 }

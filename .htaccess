@@ -7,6 +7,6 @@ RewriteEngine on
 RewriteBase /
 
 RewriteRule .*pull\.php$ pull\.php [L]
-RewriteRule ^(?!robots\.txt|favicon\.ico|img/|images/|css/|js/|mcc/|media/|media\_t/|cors/|tests/|src(.*)/(.*)/js/|src(.*)/(.*)/css/|module/(.*)/public/|files/(.*))(.*)$ index.php [L]
+RewriteRule ^(?!robots\.txt|favicon\.ico|img/|images/|css/|js/|src(.*)/(.*)/js/|src(.*)/(.*)/css/)(.*)$ index.php [L]
 
 RewriteRule ^((robots\.txt|favicon\.ico|img/|images/|css/|js/).*)$ public/$1 [L]

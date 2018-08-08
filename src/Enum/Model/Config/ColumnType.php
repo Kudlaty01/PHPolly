@@ -9,7 +9,6 @@ namespace Enum\Model\Config;
  */
 class ColumnType
 {
-	const INTEGER = 'int';
-	const VARCHAR = 'varchar';
-	const BOOLEAN = 'bool';
+	const INTEGER = 'INTEGER';
+	const VARCHAR = 'VARCHAR';
 }

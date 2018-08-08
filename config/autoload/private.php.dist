@@ -1,0 +1,28 @@
+<?php
+/**
+ * Private config template
+ */
+use Enum\Config\ConfigSections;
+
+return [
+	ConfigSections::PRIVATE => [
+		'users' => [
+			[
+				'login'       => 'admin',
+				'password'    => '',
+				'backendUser' => 1,
+			],
+			[
+				'login'       => 'user1',
+				'password'    => '',
+				'backendUser' => 0,
+			],
+			[
+				'login'       => 'user2',
+				'password'    => '',
+				'backendUser' => 0,
+			],
+		],
+
+	],
+];

@@ -1,0 +1,14 @@
+{
+  "dependencies": {
+    "knockout": "^3.4.2"
+  },
+  "scripts": {
+    "setup": "yarn install --modules-folder public/js/components"
+  },
+  "name": "polls-app",
+  "version": "0.9",
+  "description": "Application for polls management and providing to users",
+  "author": "Paweł Sola <sola.pawel@gmail.com>",
+  "license": "MIT",
+  "private": true
+}

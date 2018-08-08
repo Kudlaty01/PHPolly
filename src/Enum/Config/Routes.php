@@ -15,4 +15,5 @@ class Routes
 	const ACTION = 'action';
 	const PARAMETERS = 'parameters';
 	const NAVIGATION = 'navigation';
+	const ACTION_PARAMETERS = 'action_parameters';
 }
