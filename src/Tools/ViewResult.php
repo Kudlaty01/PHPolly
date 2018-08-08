@@ -37,14 +37,15 @@ class ViewResult extends AbstractActionResult implements IActionResult
 	/**
 	 * View constructor.
 	 * @param array       $data associative array with all parts to be replaced
+	 * @param string|null $title layout to wrap the template in
 	 * @param string|null $template template to be introduced
-	 * @param string|null $layout layout to wrap the template in
 	 */
-	public function __construct($data, $template = null, $layout = null)
+	public function __construct($data, $title = null, $template = null)
 	{
-		$this->data = $data;
+		$this->data  = $data;
+		$this->title = $title;
 		$this->setTemplate($template);
-		$this->setLayout($layout ?? 'layout');
+		$this->setLayout('layout'); //set default layout
 	}
 
 	/**

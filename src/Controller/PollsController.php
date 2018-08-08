@@ -7,7 +7,6 @@ use Enum\ErrorMessages;
 use Model\AnswerModel;
 use Model\PollModel;
 use Tools\AbstractController;
-use Tools\IActionResult;
 use Tools\IController;
 use Tools\JsonResult;
 use Tools\ViewResult;
@@ -37,8 +36,8 @@ class PollsController extends AbstractController implements IController
 	public function indexAction(): ViewResult
 	{
 		$this->checkLogin(true);
-		$data = ['msg' => 'polls coming..'];
-		return new ViewResult($data);
+		$data = ['msg' => ''];
+		return new ViewResult($data, 'Polls list');
 	}
 
 	/**
@@ -87,7 +86,7 @@ class PollsController extends AbstractController implements IController
 			}
 
 		}
-		return new ViewResult(['action' => 'add', 'pollData' => json_encode($data)], 'polls/edit');
+		return new ViewResult(['action' => 'add', 'pollData' => json_encode($data)], 'Add new poll', 'polls/edit');
 
 	}
 
@@ -135,7 +134,7 @@ class PollsController extends AbstractController implements IController
 				$pollData['answers'] = $answersChanges;
 			}
 		}
-		return new ViewResult(['action' => "$id", 'pollData' => json_encode($pollData)]);
+		return new ViewResult(['action' => "$id", 'pollData' => json_encode($pollData)], 'Edit poll #' . $id);
 	}
 
 	/**
