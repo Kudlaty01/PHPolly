@@ -105,7 +105,6 @@ class IndexController extends AbstractController implements IController
 
 	public function getPollAction()
 	{
-		$message  = '';
 		$pollData = null;
 		if ($this->getRequest()->isPost()) {
 			$poll = $this->pollsService->getPollForUser($this->sessionManager->getUserId());
