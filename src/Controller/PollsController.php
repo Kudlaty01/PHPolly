@@ -3,6 +3,7 @@
 namespace Controller;
 
 use Enum\Config\Model;
+use Enum\ErrorMessages;
 use Model\AnswerModel;
 use Model\PollModel;
 use Tools\AbstractController;
@@ -157,7 +158,7 @@ class PollsController extends AbstractController implements IController
 			];
 			return new JsonResult($responseData);
 		} else {
-			return new JsonResult(['message' => 'Action available via POST only']);
+			return new JsonResult(['message' => ErrorMessages::WRONG_REQUEST_TYPE]);
 		}
 
 	}
