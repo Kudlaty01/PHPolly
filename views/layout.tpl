@@ -13,8 +13,8 @@
 <body>
 <div class="container">
 <h1>{{ title }}</h1>
-<nav>
-    <ul id="menu">{{ navigation }}</ul>
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <ul class="navbar-nav mr-auto" id="menu">{{ navigation }}</ul>
 </nav>
 {{ templateData }}
 </div>
