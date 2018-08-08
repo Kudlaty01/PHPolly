@@ -12,9 +12,9 @@
 </head>
 <body>
 <h1>{{ title }}</h1>
-<div>
+<nav>
     <ul id="menu">{{ navigation }}</ul>
-</div>
+</nav>
 {{ templateData }}
 </body>
 </html>
