@@ -2,6 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <title>Polling application - {{ title }}</title>
     <link rel="stylesheet" href="/public/css/main.css">
     <script type="text/javascript" src="/public/js/ajax.js"></script>
