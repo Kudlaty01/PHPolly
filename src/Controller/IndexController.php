@@ -49,7 +49,7 @@ class IndexController extends AbstractController implements IController
 	 * Default action for frontend users to start on when signed in
 	 * @return ViewResult
 	 */
-	public function indexAction()
+	public function indexAction(): ViewResult
 	{
 		$this->checkLogin();
 		$msg = "Welcome to the polling application!";
@@ -61,7 +61,7 @@ class IndexController extends AbstractController implements IController
 	 * Installation. Available only if no db file is present or for backend users
 	 * @return ViewResult
 	 */
-	public function installAction()
+	public function installAction(): ViewResult
 	{
 		if ($this->installationService->installed() && !$this->sessionManager->isBackendUser()) {
 			$this->getRequest()->redirect('/login');
@@ -80,7 +80,7 @@ class IndexController extends AbstractController implements IController
 	/**
 	 * @return ViewResult
 	 */
-	public function loginAction()
+	public function loginAction(): ViewResult
 	{
 		$model = array_fill_keys(['login', 'password'], '');
 		if ($this->getRequest()->isPost()) {
@@ -103,7 +103,7 @@ class IndexController extends AbstractController implements IController
 		$this->getRequest()->redirect('/login');
 	}
 
-	public function getPollAction()
+	public function getPollAction(): JsonResult
 	{
 		$pollData = null;
 		if ($this->getRequest()->isPost()) {
@@ -126,7 +126,7 @@ class IndexController extends AbstractController implements IController
 	 * TODO: Check if answer is for poll
 	 * @return JsonResult
 	 */
-	public function voteAction()
+	public function voteAction(): JsonResult
 	{
 		$message = '';
 		$totals  = null;
