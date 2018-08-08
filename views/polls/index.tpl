@@ -1,18 +1,23 @@
 <div>
     <span>{{ msg }}</span>
     <button data-bind="click: reload">Reload</button>
-    <table>
+    <table class="table">
         <thead>
         <tr>
-            <td>ID</td>
-            <td>question</td>
-            <td>Expiration date</td>
-            <td>Action</td>
+            <th scope="col">ID
+            </td>
+            <th scope="col">question
+            </td>
+            <th scope="col">Expiration date
+            </td>
+            <th scope="col">Action
+            </td>
         </tr>
         </thead>
         <tbody data-bind="foreach: polls">
         <tr>
-            <td data-bind="text: pollId"></td>
+            <th scope="row" data-bind="text: pollId">
+            </td>
             <td data-bind="text: question"></td>
             <td data-bind="text: expirationDate"></td>
             <td>
