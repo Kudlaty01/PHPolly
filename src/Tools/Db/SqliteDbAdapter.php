@@ -2,6 +2,7 @@
 
 namespace Tools\Db;
 
+use Enum\ConstraintType;
 use Enum\Model\Config\ColumnType;
 use Enum\Model\RelationType;
 use Model\Config\Db\DbModelColumnConfig;
@@ -35,7 +36,10 @@ class SqliteDbAdapter extends AbstractDbAdapter implements IDbAdapter
 		$relationsDefinitions     = array_map(function (DbModelRelationConfig $relation) {
 			return sprintf('FOREIGN KEY(%s) REFERENCES %s(%s)', $relation->getId(), $relation->getTargetConfiguration()->getTable(), $relation->getTargetConfiguration()->getPrimaryKey());
 		}, $relations);
-		$result                   = sprintf("CREATE TABLE %s(%s)", $config->getTable(), join(',' . PHP_EOL, array_merge($columnDefinitions, [$primaryKeyStatement], $relationsDefinitions)));
+		$uniqueConstraintDefinitions = array_map(function (array $uniqueConstraintColumns) {
+			return sprintf('CONSTRAINT %s UNIQUE (%s)', "unique_" . join('_', $uniqueConstraintColumns), join(',', $uniqueConstraintColumns));
+		}, $config->getConstraints()[ConstraintType::UNIQUE]);
+		$result = sprintf("CREATE TABLE %s(%s)", $config->getTable(), join(',' . PHP_EOL, array_merge($columnDefinitions, [$primaryKeyStatement], $relationsDefinitions, $uniqueConstraintDefinitions)));
 		return $result;
 	}
 

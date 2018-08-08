@@ -2,6 +2,7 @@
 
 namespace Model;
 
+use Enum\ConstraintType;
 use Enum\Model\Config\ColumnType;
 use Enum\Model\RelationType;
 use Model\Config\AbstractDbModel;
@@ -62,7 +63,12 @@ class UserModel extends AbstractDbModel implements IDbModel
 				'passwordHash' => (new ColumnConfig(ColumnType::VARCHAR))->setLength(60),
 				'backendUser'  => new ColumnConfig(ColumnType::INTEGER), //since sqlite doesn't support booleans
 			])
-			->setPrimaryKey('user_id');
+			->setPrimaryKey('user_id')
+			->setConstraints([
+				ConstraintType::UNIQUE => [
+					['login'],
+				],
+			]);
 		if ($withRelations) {
 			$dbModelConfig
 				->setRelations([

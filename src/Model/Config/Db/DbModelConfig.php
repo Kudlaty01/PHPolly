@@ -31,6 +31,10 @@ class DbModelConfig implements IDbModelConfig
 	 * @var string
 	 */
 	private $primaryKey;
+	/**
+	 * @var array associative array of table constraints
+	 */
+	private $constraints;
 
 	/**
 	 * DbModelConfig constructor.
@@ -108,6 +112,20 @@ class DbModelConfig implements IDbModelConfig
 	public function setRelations(array $relations): DbModelConfig
 	{
 		$this->relations = $relations;
+		return $this;
+	}
+
+	/**
+	 * @return array
+	 */
+	public function getConstraints()
+	{
+		return $this->constraints;
+	}
+
+	public function setConstraints(array $constrains): DbModelConfig
+	{
+		$this->constraints = $constrains;
 		return $this;
 	}
 

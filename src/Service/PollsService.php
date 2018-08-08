@@ -29,9 +29,14 @@ class PollsService
 	}
 
 
-	public function getPollForUser($userId)
+	/**
+	 * @param int $userId
+	 * @return PollModel
+	 */
+	public function getPollForUser(int $userId): PollModel
 	{
-		// TODO: do it
+
+
 	}
 
 
@@ -54,6 +59,11 @@ class PollsService
 	{
 		$date = new \DateTime($model->getExpirationDate());
 		return $date < new \DateTime();
+
+	}
+
+	public function getTotalVotes(int $id): int
+	{
 
 	}
 }
