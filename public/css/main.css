@@ -1,7 +1,6 @@
-#menu ul{
-  list-style: none;
+.answer-item{
+    line-height: 30px;
 }
-#menu li{
-  display: inline;
-  margin: 5px;
+.answer {
+    margin-right: 15px
 }
