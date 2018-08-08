@@ -1,6 +1,6 @@
 <div>
     <span>{{ msg }}</span>
-    <button data-bind="click: reload">Reload</button>
+    <button class="btn btn-primary" data-bind="click: reload">Reload</button>
     <table class="table">
         <thead>
         <tr>
@@ -21,8 +21,8 @@
             <td data-bind="text: question"></td>
             <td data-bind="text: expirationDate"></td>
             <td>
-                <a data-bind="attr: { href: editionUrl }">edit</a>
-                <a href="#" data-bind="click: $parent.removeItem">delete</a>
+                <a class="btn btn-primary" data-bind="attr: { href: editionUrl }">edit</a>
+                <button class="btn btn-danger" data-bind="click: $parent.removeItem">delete</button>
             </td>
         </tr>
 
