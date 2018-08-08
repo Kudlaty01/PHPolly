@@ -152,8 +152,8 @@ class ViewResult extends AbstractActionResult implements IActionResult
 		$templateContent   = str_replace($replacementKeys, array_values($this->data), $templateContent);
 		$tagsToReplace     = array_map(function ($tag) {
 			return sprintf('{{ %s }}', $tag);
-		}, ['templateData', 'navigation', 'controllerScripts']);
-		$viewToRender      = str_replace($tagsToReplace, [$templateContent, $navigationContent, $scriptsContent], $layoutContent);
+		}, ['title', 'templateData', 'navigation', 'controllerScripts']);
+		$viewToRender = str_replace($tagsToReplace, [($this->title ?? ''), $templateContent, $navigationContent, $scriptsContent], $layoutContent);
 
 		return $viewToRender;
 	}
