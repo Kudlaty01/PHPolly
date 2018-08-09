@@ -31,14 +31,11 @@ Polls = {
             var self = this;
             self.total = ko.observable();
             self.page = ko.observable(0);
+            self.pages = ko.observableArray([]);
             self.pageSize = ko.observable(20);
             self.polls = ko.observableArray();
-            self.editItem = function () {
-                console.log(this.pollId());
-            };
             self.removeItem = function () {
                 const item = this;
-                console.log(item);
                 if (confirm("Are you sure you want to delete this item?")) {
                     ajax.post('polls/remove', {id: item.pollId()}, function (response) {
                         const data = JSON.parse(response);
@@ -57,7 +54,13 @@ Polls = {
                 }, function (response) {
                     const data = JSON.parse(response);
                     self.polls(data.data.map(d => new Polls.PollModel(d)));
+                    self.total(data.count);
+                    self.pages([...Array(Math.ceil(self.total() / self.pageSize())).keys()]);
                 });
+            };
+            self.changePage = function(){
+                self.page(+this);
+                self.reload();
             };
             self.reload();
         };
