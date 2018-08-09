@@ -9,6 +9,7 @@ use Model\Config\Db\DbModelConfig;
 use Model\Config\Db\DbModelRelationConfig;
 use Model\IDbModel;
 use Tools\Exception\MoreThanOneRecordFoundException;
+use Tools\Exception\NoRecordFoundException;
 
 /**
  * Class ModelRepository
@@ -146,7 +147,7 @@ class ModelRepository
 		if (count($result) > 1) {
 			throw new MoreThanOneRecordFoundException();
 		} else if (empty($result)) {
-			throw new \Exception(ExceptionMessages::NO_RECORDS_FOUND);
+			throw new NoRecordFoundException();
 		} else {
 			return $result[0];
 		}
