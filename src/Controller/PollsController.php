@@ -50,12 +50,14 @@ class PollsController extends AbstractController implements IController
 			$limit     = $this->getRequest()->getPost('limit', 100);
 			$offset    = $this->getRequest()->getPost('offset', 0);
 			$pollList  = $this->modelRepository->list(new PollModel(), null, null, $limit, $offset);
+			$pollCount = $this->modelRepository->list(new PollModel(), null, ['count' => 'COUNT(*)'], 0);
 			$plainList = array_map(function (PollModel $pollItem) {
 				return $pollItem->toArray();
 			}, $pollList);
 			return new JsonResult([
 				'data'  => $plainList,
-				'count' => count($pollList),
+				// I know this is a dirty hack and would improve it later on
+				'count' => $pollCount[0]->count,
 			]);
 		} else {
 			return new JsonResult(['message' => ErrorMessages::WRONG_REQUEST_TYPE]);
