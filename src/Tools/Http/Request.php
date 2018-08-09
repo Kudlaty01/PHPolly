@@ -43,11 +43,12 @@ class Request
 
 	/**
 	 * @param string|null $key
+	 * @param mixed       $default default on empty
 	 * @return mixed
 	 */
-	public function getPost(string $key = null)
+	public function getPost(string $key = null, $default = null)
 	{
-		return $key ? $_POST[$key] : $_POST;
+		return ($key ? $_POST[$key] : $_POST) ?? $default;
 	}
 
 	/**
