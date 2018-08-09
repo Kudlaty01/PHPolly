@@ -47,7 +47,9 @@ class PollsController extends AbstractController implements IController
 	public function listAction(): JsonResult
 	{
 		if ($this->getRequest()->isPost()) {
-			$pollList  = $this->modelRepository->list(new PollModel());
+			$limit     = $this->getRequest()->getPost('limit', 100);
+			$offset    = $this->getRequest()->getPost('offset', 0);
+			$pollList  = $this->modelRepository->list(new PollModel(), null, null, $limit, $offset);
 			$plainList = array_map(function (PollModel $pollItem) {
 				return $pollItem->toArray();
 			}, $pollList);
