@@ -46,15 +46,18 @@ class PollsController extends AbstractController implements IController
 	 */
 	public function listAction(): JsonResult
 	{
-		$pollList  = $this->modelRepository->list(new PollModel());
-		$plainList = array_map(function (PollModel $pollItem) {
-			return $pollItem->toArray();
-		}, $pollList);
-		return new JsonResult([
-			'data'  => $plainList,
-			'count' => count($pollList),
-		]);
-
+		if ($this->getRequest()->isPost()) {
+			$pollList  = $this->modelRepository->list(new PollModel());
+			$plainList = array_map(function (PollModel $pollItem) {
+				return $pollItem->toArray();
+			}, $pollList);
+			return new JsonResult([
+				'data'  => $plainList,
+				'count' => count($pollList),
+			]);
+		} else {
+			return new JsonResult(['message' => ErrorMessages::WRONG_REQUEST_TYPE]);
+		}
 	}
 
 	/**
