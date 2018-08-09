@@ -1,6 +1,6 @@
 <div>
     <span>{{ msg }}</span>
-    <button class="btn btn-primary" data-bind="click: reload">Reload</button>
+    <button class="btn btn-primary" data-bind="click: reload">Reload</button> <div>Page nr: <span data-bind="foreach: pages"><button class="btn btn-secondary btn-sm" data-bind="text: $data+1, click: $parent.changePage"></button></span></div>
     <table class="table">
         <thead>
         <tr>
@@ -28,6 +28,7 @@
 
         </tbody>
     </table>
+    <button class="btn btn-primary" data-bind="click: reload">Reload</button> <div>Page nr: <span data-bind="foreach: pages"><button class="btn btn-secondary btn-sm" data-bind="text: $data+1, click: $parent.changePage"></button></span></div>
 </div>
 <script type="text/javascript">
     Polls.list();
