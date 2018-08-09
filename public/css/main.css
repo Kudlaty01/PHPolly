@@ -4,3 +4,7 @@
 .answer {
     margin-right: 15px
 }
+
+.alert:empty {
+    display: none;
+}
