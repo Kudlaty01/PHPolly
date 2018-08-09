@@ -2,6 +2,7 @@
 
 namespace Tools\Db;
 
+use Enum\ExceptionMessages;
 use Enum\Model\RelationType;
 use Enum\QueryType;
 use Model\Config\Db\DbModelConfig;
@@ -142,9 +143,9 @@ class ModelRepository
 	{
 		$result = $this->list($model, $conditions);
 		if (count($result) > 1) {
-			throw new \Exception("More than one records found for given conditions!");
+			throw new \Exception(ExceptionMessages::TOO_MANY_RECORDS_FOUND);
 		} else if (empty($result)) {
-			throw new \Exception("No records found for given conditions!");
+			throw new \Exception(ExceptionMessages::NO_RECORDS_FOUND);
 		} else {
 			return $result[0];
 		}
