@@ -29,7 +29,7 @@ TODO
 * add ajax request type validation
 * implement MANY_TO_MANY relationship
 * separate modules of front and backend
-* grid pagination
+* ~~grid pagination~~
 * some methods are still being used on instances where they shouldn't
 * stop giving model class to repository every time
 * prevent redundant model declaration within poll management scripts
