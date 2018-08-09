@@ -155,10 +155,12 @@ class ModelRepository
 	 * @param IDbModel   $model may be empty - placeholder of class name and config
 	 * @param array|null $conditions
 	 * @param null       $fields
+	 * @param int        $limit
+	 * @param int        $offset
 	 * @return array
 	 */
 	public
-	function list(IDbModel $model, array $conditions = null, $fields = null): array
+	function list(IDbModel $model, array $conditions = null, $fields = null, $limit = 100, $offset = 0): array
 	{
 		$modelConfig = $model::getConfig();
 		$query       = new Query($this->dbEngine, QueryType::SELECT, $modelConfig->getTable());
@@ -167,6 +169,12 @@ class ModelRepository
 		}
 		if (!empty($fields)) {
 			$query->setFields($fields);
+		}
+		if ($limit) {
+			$query->setLimit($limit);
+		}
+		if ($offset) {
+			$query->setOffset($offset);
 		}
 
 //		$query->setConditions($this->dbEngine->parseParameters($conditions));
