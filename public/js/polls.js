@@ -29,6 +29,9 @@ Polls = {
     list: function () {
         const ViewModel = function () {
             var self = this;
+            self.total = ko.observable();
+            self.page = ko.observable(0);
+            self.pageSize = ko.observable(20);
             self.polls = ko.observableArray();
             self.editItem = function () {
                 console.log(this.pollId());
@@ -48,7 +51,10 @@ Polls = {
                 }
             };
             self.reload = function () {
-                ajax.post('polls/list', {}, function (response) {
+                ajax.post('polls/list', {
+                    limit: self.pageSize(),
+                    offset: self.pageSize() * self.page()
+                }, function (response) {
                     const data = JSON.parse(response);
                     self.polls(data.data.map(d => new Polls.PollModel(d)));
                 });
