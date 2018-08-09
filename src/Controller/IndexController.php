@@ -8,6 +8,7 @@ use Model\PollModel;
 use Service\InstallationService;
 use Service\PollsService;
 use Tools\AbstractController;
+use Tools\Exception\NoRecordFoundException;
 use Tools\IController;
 use Tools\JsonResult;
 use Tools\ViewResult;
@@ -80,12 +81,18 @@ class IndexController extends AbstractController implements IController
 	 */
 	public function loginAction(): ViewResult
 	{
-		$model = array_fill_keys(['login', 'password'], '');
+		$model = array_fill_keys(['login', 'password', 'error'], '');
 		if ($this->getRequest()->isPost()) {
 			$model['login']    = $this->getRequest()->getPost('login');
 			$model['password'] = $this->getRequest()->getPost('password');
-			if ($this->authenticationService->login($model['login'], $model['password'])) {
-				$this->getRequest()->redirect($this->sessionManager->isBackendUser() ? '/polls' : '/index');
+			try {
+				if ($this->authenticationService->login($model['login'], $model['password'])) {
+					$this->getRequest()->redirect($this->sessionManager->isBackendUser() ? '/polls' : '/index');
+				} else {
+					$model['error'] = "Login and password do not match!";
+				}
+			} catch (NoRecordFoundException $e) {
+				$model['error'] = "No account with provided login found!";
 			}
 		}
 		$model['password'] = '';
