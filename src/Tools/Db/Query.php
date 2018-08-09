@@ -291,7 +291,14 @@ class Query
 		switch ($this->type) {
 			//missing break is on purpose
 			case QueryType::SELECT:
-				$words[] = $this->fields ? join(', ', $this->fields) : '*';
+				if (!empty($this->fields)) {
+					$fields  = array_map(function ($field, $index) {
+						return (is_string($field) && !is_numeric($field)) ? "$field AS $index" : $field;
+					}, $this->fields, array_keys($this->fields));
+					$words[] = join(', ', $fields);
+				} else {
+					$words[] = '*';
+				}
 			case QueryType::DELETE:
 				$words[] = 'FROM';
 				break;
