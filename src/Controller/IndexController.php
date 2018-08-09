@@ -89,14 +89,14 @@ class IndexController extends AbstractController implements IController
 				if ($this->authenticationService->login($model['login'], $model['password'])) {
 					$this->getRequest()->redirect($this->sessionManager->isBackendUser() ? '/polls' : '/index');
 				} else {
-					$model['error'] = "Login and password do not match!";
+					$model['error'] = ErrorMessages::WRONG_PASSWORD;
 				}
 			} catch (NoRecordFoundException $e) {
-				$model['error'] = "No account with provided login found!";
+				$model['error'] = ErrorMessages::WRONG_LOGIN;
 			}
 		}
 		$model['password'] = '';
-		return (new ViewResult($model, "Sign in"));
+		return new ViewResult($model, "Sign in");
 	}
 
 	/**
