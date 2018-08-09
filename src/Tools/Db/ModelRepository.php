@@ -8,6 +8,7 @@ use Enum\QueryType;
 use Model\Config\Db\DbModelConfig;
 use Model\Config\Db\DbModelRelationConfig;
 use Model\IDbModel;
+use Tools\Exception\MoreThanOneRecordFoundException;
 
 /**
  * Class ModelRepository
@@ -143,7 +144,7 @@ class ModelRepository
 	{
 		$result = $this->list($model, $conditions);
 		if (count($result) > 1) {
-			throw new \Exception(ExceptionMessages::TOO_MANY_RECORDS_FOUND);
+			throw new MoreThanOneRecordFoundException();
 		} else if (empty($result)) {
 			throw new \Exception(ExceptionMessages::NO_RECORDS_FOUND);
 		} else {
