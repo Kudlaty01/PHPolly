@@ -65,6 +65,14 @@ class Query
 	 * @var array
 	 */
 	private $fields;
+	/**
+	 * @var int
+	 */
+	private $limit;
+	/**
+	 * @var int
+	 */
+	private $offset;
 	//endregion
 
 	//region Constructor
@@ -220,6 +228,42 @@ class Query
 		return $this;
 	}
 
+	/**
+	 * @return int
+	 */
+	public function getLimit(): int
+	{
+		return $this->limit;
+	}
+
+	/**
+	 * @param int $limit
+	 * @return Query
+	 */
+	public function setLimit(int $limit): Query
+	{
+		$this->limit = $limit;
+		return $this;
+	}
+
+	/**
+	 * @return int
+	 */
+	public function getOffset(): int
+	{
+		return $this->offset;
+	}
+
+	/**
+	 * @param int $offset
+	 * @return Query
+	 */
+	public function setOffset(int $offset): Query
+	{
+		$this->offset = $offset;
+		return $this;
+	}
+
 	//endregion
 
 
@@ -286,8 +330,16 @@ class Query
 				}, array_keys($this->conditions), $this->conditions));
 		}
 
-		if ($this->type == QueryType::SELECT && $this->sort) {
-			$words[] = 'ORDER BY ' . $this->sort;
+		if ($this->type == QueryType::SELECT) {
+			if ($this->sort) {
+				$words[] = 'ORDER BY ' . $this->sort;
+			}
+			if ($this->limit) {
+				$words[] = 'LIMIT ' . $this->limit;
+			}
+			if ($this->offset) {
+				$words[] = 'OFFSET ' . $this->offset;
+			}
 		}
 
 		return join(' ', $words);
