@@ -29,10 +29,12 @@ Polls = {
     list: function () {
         const ViewModel = function () {
             var self = this;
+            self.pageSizes = [10, 20, 50, 100];
             self.total = ko.observable();
             self.page = ko.observable(0);
-            self.pages = ko.observableArray([]);
+            self.pages = ko.observableArray(self.pageSizes);
             self.pageSize = ko.observable(20);
+            self.pageSizeOptions = ko.observableArray(self.pageSizes);
             self.polls = ko.observableArray();
             self.removeItem = function () {
                 const item = this;
@@ -47,7 +49,8 @@ Polls = {
 //                alert("Then shall it be deleted!");
                 }
             };
-            self.reload = function () {
+            self.reload = ko.computed(function () {
+                console.log(self.pageSize());
                 ajax.post('polls/list', {
                     limit: self.pageSize(),
                     offset: self.pageSize() * self.page()
@@ -57,12 +60,11 @@ Polls = {
                     self.total(data.count);
                     self.pages([...Array(Math.ceil(self.total() / self.pageSize())).keys()]);
                 });
-            };
+            });
             self.changePage = function(){
                 self.page(+this);
-                self.reload();
             };
-            self.reload();
+            // self.reload();
         };
         ko.applyBindings(new ViewModel());
     },
