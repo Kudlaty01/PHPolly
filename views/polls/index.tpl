@@ -6,7 +6,7 @@
             Page size:
             <select class="form-control" name="page-size"
                     data-bind="value: pageSize, options: pageSizeOptions"></select>
-        </label>Page nr: <span data-bind="foreach: pages"><button class="btn btn-secondary btn-sm" data-bind="text: $data+1, click: $parent.changePage"></button></span>
+        </label>Page nr: <span data-bind="foreach: pages"><button class="btn btn-secondary btn-sm" data-bind="text: $data+1, click: $parent.changePage"></button></span><span>Total: <span data-bind="text: total"></span></span>
     </div>
     <table class="table">
         <thead>
@@ -40,7 +40,7 @@
             Page size:
             <select class="form-control" name="page-size"
                     data-bind="value: pageSize, options: pageSizeOptions"></select>
-        </label>Page nr: <span data-bind="foreach: pages"><button class="btn btn-secondary btn-sm" data-bind="text: $data+1, click: $parent.changePage"></button></span>
+        </label>Page nr: <span data-bind="foreach: pages"><button class="btn btn-secondary btn-sm" data-bind="text: $data+1, click: $parent.changePage"></button></span><span>Total: <span data-bind="text: total"></span></span>
     </div>
 </div>
 <script type="text/javascript">
