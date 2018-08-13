@@ -50,7 +50,6 @@ Polls = {
                 }
             };
             self.reload = ko.computed(function () {
-                console.log(self.pageSize());
                 ajax.post('polls/list', {
                     limit: self.pageSize(),
                     offset: self.pageSize() * self.page()
